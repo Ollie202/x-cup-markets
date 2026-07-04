@@ -1,2 +1,8 @@
 window.XSPORTY_API_BASE_URL = "https://x-cup-backend-production.up.railway.app";
 window.XCUP_API_BASE_URL = window.XSPORTY_API_BASE_URL;
+window.XSPORTY_ARC_CHAIN_ID = "5042002";
+window.XSPORTY_ARC_RPC_URL = "https://arc-testnet.drpc.org";
+window.XSPORTY_ARC_EXPLORER_URL = "https://testnet.arcscan.app";
+window.XSPORTY_ARC_NATIVE_CURRENCY_NAME = "USDC";
+window.XSPORTY_ARC_NATIVE_CURRENCY_SYMBOL = "USDC";
+window.XSPORTY_ARC_NATIVE_CURRENCY_DECIMALS = "18";

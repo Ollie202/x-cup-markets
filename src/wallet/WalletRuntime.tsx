@@ -29,27 +29,36 @@ type DisconnectState = {
   requested: boolean;
 };
 
-const xLayer = defineChain({
-  id: 196,
-  name: 'X Layer',
+const arcChainId = Number(window.XSPORTY_ARC_CHAIN_ID || import.meta.env.VITE_ARC_CHAIN_ID || 0);
+const arcRpcUrl = window.XSPORTY_ARC_RPC_URL || import.meta.env.VITE_ARC_RPC_URL || '';
+const arcExplorerUrl = window.XSPORTY_ARC_EXPLORER_URL || import.meta.env.VITE_ARC_EXPLORER_URL || '';
+
+if (!arcChainId || !arcRpcUrl) {
+  console.warn('Arc testnet wallet config is missing XSPORTY_ARC_CHAIN_ID or XSPORTY_ARC_RPC_URL.');
+}
+
+const arcTestnet = defineChain({
+  id: arcChainId || 1,
+  name: 'Arc Testnet',
   nativeCurrency: {
-    decimals: 18,
-    name: 'OKB',
-    symbol: 'OKB',
+    decimals: Number(window.XSPORTY_ARC_NATIVE_CURRENCY_DECIMALS || import.meta.env.VITE_ARC_NATIVE_CURRENCY_DECIMALS || 18),
+    name: window.XSPORTY_ARC_NATIVE_CURRENCY_NAME || import.meta.env.VITE_ARC_NATIVE_CURRENCY_NAME || 'USDC',
+    symbol: window.XSPORTY_ARC_NATIVE_CURRENCY_SYMBOL || import.meta.env.VITE_ARC_NATIVE_CURRENCY_SYMBOL || 'USDC',
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc.xlayer.tech'],
+      http: [arcRpcUrl || 'http://127.0.0.1:8545'],
     },
   },
-  blockExplorers: {
-    default: {
-      name: 'X Layer Explorer',
-      url: 'https://www.okx.com/web3/explorer/xlayer',
-    },
-  },
+  blockExplorers: arcExplorerUrl
+    ? {
+        default: {
+          name: 'Arc Testnet Explorer',
+          url: arcExplorerUrl,
+        },
+      }
+    : undefined,
 });
-
 const walletConnectProjectId =
   window.XSPORTY_WALLETCONNECT_PROJECT_ID ||
   window.XCUP_WALLETCONNECT_PROJECT_ID ||
@@ -63,9 +72,9 @@ const WALLET_PROVIDER_KEY = 'x-cup-wallet-provider';
 const wagmiConfig = getDefaultConfig({
   appName: 'Xsporty',
   projectId: walletConnectProjectId,
-  chains: [xLayer],
+  chains: [arcTestnet],
   transports: {
-    [xLayer.id]: http(xLayer.rpcUrls.default.http[0]),
+    [arcTestnet.id]: http(arcTestnet.rpcUrls.default.http[0]),
   },
 });
 

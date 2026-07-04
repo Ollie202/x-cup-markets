@@ -28,7 +28,7 @@ export const sportLabels = {
 };
 
 export const SYMBOL = 'USDC';
-export const XLAYER_TX_EXPLORER = 'https://www.okx.com/web3/explorer/xlayer/tx/';
+export const ARC_TX_EXPLORER = window.XSPORTY_ARC_EXPLORER_URL ? `${window.XSPORTY_ARC_EXPLORER_URL.replace(/\/$/, "")}/tx/` : "";
 export const marketVisuals = {
   "ufc-makhachev-volkanovski": {
     homeImage: "https://commons.wikimedia.org/wiki/Special:FilePath/Islam_Makhachev_2022_UFC_belt_%28cropped%29.png?width=720",

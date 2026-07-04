@@ -557,7 +557,7 @@ function Hero({ match, onOpen, loading }: { match?: MarketMatch; onOpen: (match:
             <span>WC</span>
             <span>2026</span>
             <span>World Cup</span>
-            <span>X Layer</span>
+            <span>Arc Testnet</span>
           </div>
           {match ? (
             <button className="wc-hero-action" type="button" onClick={() => onOpen(match)}>
@@ -1233,7 +1233,7 @@ function TradeSlip({
             <span>Est. shares</span>
             <strong>{shares.toFixed(1)}</strong>
             <span>Max payout</span>
-            <strong>${shares.toFixed(2)}</strong>
+            <strong>{shares.toFixed(2)} {SYMBOL}</strong>
           </div>
           <button className="connect-btn full confirm-trade" type="button" onClick={onConfirm}>
             {connected ? 'Confirm ticket' : 'Connect wallet first'}
@@ -1649,7 +1649,7 @@ function PnlModal({ ticket, onClose }: { ticket: Ticket | null; onClose: () => v
         <button className="share-pnl-card__close" type="button" onClick={onClose} aria-label="Close PnL card">x</button>
         <div className="share-pnl-card__brand">
           <BrandMark />
-          <div><strong>Xsporty Markets</strong><small>Position on X Layer</small></div>
+          <div><strong>Xsporty Markets</strong><small>Position on Arc Testnet</small></div>
         </div>
         <div className="share-pnl-card__headline">
           <span>Open position</span>
@@ -1676,7 +1676,7 @@ function Footer() {
         <div className="footer-brand">
           <a className="brand footer-logo" href="#" onClick={event => event.preventDefault()}>
             <BrandMark />
-            <span><strong>Xsporty</strong><small>Prediction Market on X Layer</small></span>
+            <span><strong>Xsporty</strong><small>Prediction Market on Arc Testnet</small></span>
           </a>
           <p>World Cup markets for match outcomes and player moments.</p>
           <div className="footer-socials" aria-label="Social links">
@@ -1695,7 +1695,7 @@ function Footer() {
           <h2>Help</h2>
           <a href="#games-board">FAQ</a>
           <a href="#games-board">Wallet Support</a>
-          <a href="https://www.okx.com/xlayer/docs" target="_blank" rel="noreferrer">X Layer Docs</a>
+          <a href="https://arc.network" target="_blank" rel="noreferrer">Arc Testnet</a>
         </nav>
       </div>
     </footer>

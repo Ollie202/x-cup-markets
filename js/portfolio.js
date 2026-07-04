@@ -1,5 +1,5 @@
 import { state } from './state.js';
-import { SYMBOL, XLAYER_TX_EXPLORER } from './constants.js';
+import { SYMBOL, ARC_TX_EXPLORER } from './constants.js';
 import { gameMarkets } from './data.js';
 import { claimWinnings, refreshPortfolioActivity, refreshPortfolioPositions } from './api.js';
 import { applyConnectedWallet } from './wallet.js';
@@ -188,5 +188,5 @@ function shortToken(value = '') {
 }
 
 function txUrl(hash) {
-  return `${XLAYER_TX_EXPLORER}${hash}`;
+  return ARC_TX_EXPLORER ? `${ARC_TX_EXPLORER}${hash}` : "#";
 }

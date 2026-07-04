@@ -1,12 +1,12 @@
 # Xsporty
 
-A sports prediction market built on X Layer.
+A sports prediction market built on Arc testnet.
 
 Live at **[xsporty.xyz](https://xsporty.xyz)**.
 
 ## What it is
 
-Xsporty lets you stake on real sports outcomes. Markets are USDC-denominated, positions live in your own wallet, and trades settle on X Layer. No bookmaker, no custodian, no waiting around for a payout.
+Xsporty lets you stake on real sports outcomes. Markets are USDC-denominated, positions live in your own wallet, and trades settle on Arc testnet. No bookmaker, no custodian, no waiting around for a payout.
 
 ## The assistant
 
@@ -22,7 +22,7 @@ It answers questions, pulls insight across markets, compares prices, and can loa
 
 For World Cup matches you don't even need the site open. The Xsporty Telegram bot lets you browse markets, check your portfolio, and place predictions right inside the chat. Same wallet, same settlement, just a faster surface for match day.
 
-## Why X Layer
+## Why Arc testnet
 
 Cheap fees, fast confirmations, USDC-native, and the order book is on-chain via a CLOB exchange. Everything that matters is verifiable, nothing about your money is sitting on our server.
 
@@ -30,7 +30,7 @@ Cheap fees, fast confirmations, USDC-native, and the order book is on-chain via 
 
 * Frontend live on xsporty.xyz
 * Telegram bot live for World Cup markets
-* Running on X Layer
+* Running on Arc testnet
 
 ## Repo
 

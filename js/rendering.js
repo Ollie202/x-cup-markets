@@ -85,7 +85,7 @@ function updateWorldCupHeadlineHero() {
     heroCopy.textContent = `${match.time} - ${marketCount} open markets.`;
   }
   if (heroBadges) {
-    heroBadges.innerHTML = [match.homeCode, match.awayCode, "World Cup", "X Layer"]
+    heroBadges.innerHTML = [match.homeCode, match.awayCode, "World Cup", "Arc Testnet"]
       .map(label => `<span>${escapeHtml(label)}</span>`)
       .join("");
   }
