@@ -15,6 +15,7 @@ const arcExplorerUrl = process.env.XSPORTY_ARC_EXPLORER_URL || process.env.VITE_
 const arcNativeName = process.env.XSPORTY_ARC_NATIVE_CURRENCY_NAME || process.env.VITE_ARC_NATIVE_CURRENCY_NAME || "USDC";
 const arcNativeSymbol = process.env.XSPORTY_ARC_NATIVE_CURRENCY_SYMBOL || process.env.VITE_ARC_NATIVE_CURRENCY_SYMBOL || "USDC";
 const arcNativeDecimals = process.env.XSPORTY_ARC_NATIVE_CURRENCY_DECIMALS || process.env.VITE_ARC_NATIVE_CURRENCY_DECIMALS || "18";
+const walletConnectProjectId = process.env.XSPORTY_WALLETCONNECT_PROJECT_ID || process.env.VITE_WALLETCONNECT_PROJECT_ID || "18f18cefabe6138326a22b1db291b13d";
 
 const config =
   `window.XSPORTY_API_BASE_URL = ${JSON.stringify(apiBaseUrl)};\n` +
@@ -24,7 +25,9 @@ const config =
   `window.XSPORTY_ARC_EXPLORER_URL = ${JSON.stringify(arcExplorerUrl)};\n` +
   `window.XSPORTY_ARC_NATIVE_CURRENCY_NAME = ${JSON.stringify(arcNativeName)};\n` +
   `window.XSPORTY_ARC_NATIVE_CURRENCY_SYMBOL = ${JSON.stringify(arcNativeSymbol)};\n` +
-  `window.XSPORTY_ARC_NATIVE_CURRENCY_DECIMALS = ${JSON.stringify(arcNativeDecimals)};\n`;
+  `window.XSPORTY_ARC_NATIVE_CURRENCY_DECIMALS = ${JSON.stringify(arcNativeDecimals)};\n` +
+  `window.XSPORTY_WALLETCONNECT_PROJECT_ID = ${JSON.stringify(walletConnectProjectId)};\n`;
 
 fs.writeFileSync("runtime-config.js", config);
+fs.writeFileSync("public/runtime-config.js", config);
 console.log(`Runtime config written for ${apiBaseUrl}`);
