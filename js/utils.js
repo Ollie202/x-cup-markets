@@ -138,7 +138,7 @@ export function getPnlTitleChips(title) {
   }
   if (title.includes(" to ")) {
     const [team] = title.split(" to ");
-    return [team.trim(), "World Cup"];
+    return [team.trim(), "Top Leagues"];
   }
-  return ["World Cup", "Market"];
+  return ["Top Leagues", "Market"];
 }

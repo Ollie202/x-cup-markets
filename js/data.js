@@ -19,7 +19,7 @@ export function replaceLeagueMarkets(newMarkets) {
   leagueMarkets = newMarkets;
 }
 
-export function game(id, home, away, homeFlag, awayFlag, homeCode, awayCode, time, marketId, sport = "football", group = "world-cup") {
+export function game(id, home, away, homeFlag, awayFlag, homeCode, awayCode, time, marketId, sport = "football", group = "leagues") {
   return {
     id, sport, group, home, away, homeFlag, awayFlag, homeCode, awayCode, time, marketId,
     liquidity: `$${Math.floor(75 + Math.random() * 160)}.${Math.floor(Math.random() * 9)}k liquidity`,

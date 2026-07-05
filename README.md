@@ -20,7 +20,7 @@ It answers questions, pulls insight across markets, compares prices, and can loa
 
 ## The Telegram bot
 
-For World Cup matches you don't even need the site open. The Xsporty Telegram bot lets you browse markets, check your portfolio, and place predictions right inside the chat. Same wallet, same settlement, just a faster surface for match day.
+For top league matches you don't even need the site open. The Xsporty Telegram bot lets you browse markets, check your portfolio, and place predictions right inside the chat. Same wallet, same settlement, just a faster surface for match day.
 
 ## Why Arc testnet
 
@@ -29,7 +29,7 @@ Cheap fees, fast confirmations, USDC-native, and the order book is on-chain via 
 ## Status
 
 * Frontend live on xsporty.xyz
-* Telegram bot live for World Cup markets
+* Telegram bot live for top league markets
 * Running on Arc testnet
 
 ## Repo

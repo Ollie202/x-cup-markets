@@ -4,8 +4,6 @@ import { marketApi } from './client';
 export const queryKeys = {
   walletConfig: ['wallet-config'] as const,
   marketCards: ['market-cards'] as const,
-  worldCupCards: ['market-cards', 'world-cup'] as const,
-  playerFutureCards: ['market-cards', 'player-futures'] as const,
   portfolio: (address: string) => ['portfolio', address] as const,
 };
 

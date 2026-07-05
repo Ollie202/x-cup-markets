@@ -67,7 +67,7 @@ function updateWorldCupHeadlineHero() {
 
   const cutoff = Date.now() - 3 * 60 * 60 * 1000;
   const candidates = gameMarkets
-    .filter(match => match.sport === "football" && match.group === "world-cup")
+    .filter(match => match.sport === "football")
     .filter(match => !match.fixture?.kickoffTime || new Date(match.fixture.kickoffTime).valueOf() >= cutoff)
     .sort(compareHeadlineMatches);
 
@@ -79,13 +79,13 @@ function updateWorldCupHeadlineHero() {
   const awayImg = match.awayLogoUrl || flagUrl(match.awayFlag);
   const marketCount = match.options?.length || choices.length;
 
-  if (heroKicker) heroKicker.textContent = "FIFA World Cup 2026 - Prediction Market";
+  if (heroKicker) heroKicker.textContent = "Top League Football - Prediction Market";
   heroTitle.innerHTML = `${escapeHtml(match.home)}<br><span>vs</span><br>${escapeHtml(match.away)}`;
   if (heroCopy) {
     heroCopy.textContent = `${match.time} - ${marketCount} open markets.`;
   }
   if (heroBadges) {
-    heroBadges.innerHTML = [match.homeCode, match.awayCode, "World Cup", "Arc Testnet"]
+    heroBadges.innerHTML = [match.homeCode, match.awayCode, "Top Leagues", "Arc Testnet"]
       .map(label => `<span>${escapeHtml(label)}</span>`)
       .join("");
   }
@@ -141,7 +141,7 @@ export function renderGameTiles() {
   const activeMarkets = gameMarkets.filter(match => match.sport === state.sport);
   const sport = sportLabels[state.sport];
   const footballTabs = document.querySelectorAll(
-    "#games-board [data-category='world-cup'], #games-board [data-category='international-friendly'], #games-board [data-category='leagues'], #games-board [data-category='players']"
+    "#games-board [data-category='international-friendly'], #games-board [data-category='leagues'], #games-board [data-category='players']"
   );
   const ufcTabs = document.querySelectorAll(
     "#games-board [data-category='ufc-men'], #games-board [data-category='ufc-women']"
@@ -304,7 +304,7 @@ export function renderGameTiles() {
 function footballCategoryForMatch(match) {
   if (match.group === "leagues") return "leagues";
   if (match.group === "international-friendly") return "international-friendly";
-  return "world-cup";
+  return "leagues";
 }
 
 function renderLeagueFilterTabs() {
@@ -346,7 +346,7 @@ function slugifyLeague(name) {
 
 function applyActiveBoardCategory() {
   const activeTab = document.querySelector("#games-board .market-tabs button.is-active");
-  const category = activeTab?.dataset.category || (state.sport === "football" ? "world-cup" : "all");
+  const category = activeTab?.dataset.category || "all";
   if (category === "players") {
     gamesGrid.hidden = true;
     leagueFilter.hidden = true;

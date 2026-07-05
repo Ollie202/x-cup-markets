@@ -185,10 +185,8 @@ type HydrateMarketResult = {
 const sports = ['football', 'basketball', 'cricket', 'tennis', 'formula-1', 'ufc', 'esports'];
 const footballTabs = [
   ['all', 'All Games'],
-  ['world-cup', 'FIFA World Cup'],
   ['international-friendly', 'Int. Friendly Games'],
   ['leagues', 'Leagues'],
-  ['players', 'Player Futures'],
 ];
 const nonFootballTabs = [['all', 'All Games']];
 const MARKET_LOAD_TIMEOUT_MS = 45000;
@@ -236,7 +234,7 @@ function TelegramIcon() {
 function parseRoute(): RouteState {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
   const sport = params.get('sport') || 'football';
-  const fallbackCategory = sport === 'football' ? 'world-cup' : 'all';
+  const fallbackCategory = 'all';
   const page = (params.get('page') || 'home') as PageName;
   return {
     page: page === 'match' || page === 'positions' ? page : 'home',
@@ -337,14 +335,12 @@ function dedupeMatches(matches: MarketMatch[]) {
   });
 }
 
-function defaultCategoryForSport(sport: string, matches: MarketMatch[]) {
-  if (sport !== 'football') return 'all';
-  return matches.some(match => match.sport === 'football' && match.group === 'world-cup') ? 'world-cup' : 'all';
+function defaultCategoryForSport(_sport: string, _matches: MarketMatch[]) {
+  return 'all';
 }
 
-function categoryHasMarkets(sport: string, category: string, matches: MarketMatch[], players: PlayerMarket[]) {
+function categoryHasMarkets(sport: string, category: string, matches: MarketMatch[], _players: PlayerMarket[]) {
   if (sport !== 'football') return matches.some(match => match.sport === sport);
-  if (category === 'players') return players.length > 0;
   if (category === 'all') return matches.some(match => match.sport === 'football');
   return matches.some(match => match.sport === 'football' && match.group === category);
 }
@@ -530,14 +526,14 @@ function Header({
 }
 
 function Hero({ match, onOpen, loading }: { match?: MarketMatch; onOpen: (match: MarketMatch) => void; loading: boolean }) {
-  const title = match ? `${match.home}\nVS\n${match.away}` : loading ? 'Loading\nWorld Cup\nMarkets' : 'No World Cup\nMarkets\nAvailable';
+  const title = match ? `${match.home}\nVS\n${match.away}` : loading ? 'Loading\nFootball\nMarkets' : 'No Football\nMarkets\nAvailable';
   return (
-    <section className="hero-banner wc-hero-banner home-section" aria-label="Featured World Cup market">
+    <section className="hero-banner wc-hero-banner home-section" aria-label="Featured football market">
       <div className="wc-hero-bg" />
       <div className="wc-hero-overlay" />
       <div className="wc-hero-content">
         <div className="wc-hero-left">
-          <span className="wc-hero-eyebrow">FIFA World Cup 2026 - Prediction Market</span>
+          <span className="wc-hero-eyebrow">Top League Football - Prediction Market</span>
           <h1 className="wc-hero-title">
             {title.split('\n').map((line, index) => (
               <React.Fragment key={line + index}>
@@ -551,12 +547,12 @@ function Hero({ match, onOpen, loading }: { match?: MarketMatch; onOpen: (match:
               ? `${match.time} - Prediction markets are open.`
               : loading
                 ? 'Fetching live football markets.'
-                : 'No World Cup markets are available right now.'}
+                : 'No football markets are available right now.'}
           </p>
           <div className="wc-hero-badges">
             <span>WC</span>
             <span>2026</span>
-            <span>World Cup</span>
+            <span>Top Leagues</span>
             <span>Arc Testnet</span>
           </div>
           {match ? (
@@ -579,14 +575,14 @@ function Hero({ match, onOpen, loading }: { match?: MarketMatch; onOpen: (match:
             </div>
             <div>
               <strong>2026</strong>
-              <span>World Cup</span>
+              <span>Top Leagues</span>
             </div>
           </div>
           <div className="wc-hero-divider" />
         </div>
 
         <div className="wc-hero-right">
-          <img className="wc-hero-logo" src="/wc2026.png" alt="FIFA World Cup 2026" />
+          <img className="wc-hero-logo" src="/wc2026.png" alt="Top league football" />
           <div className="wc-hero-teams" aria-label="Featured matchup teams">
             <span>{match ? <img src={countryFlagFor(match, 'home')} alt={match.home} /> : null}</span>
             <b>VS</b>
@@ -1563,7 +1559,7 @@ async function answerAssistant(
 async function answerAssistantPlayerQuestion(text: string, players: PlayerMarket[]) {
   const player = extractAssistantPlayer(text, players);
   if (!player) return 'Which player should I check?';
-  const params = `query=${encodeURIComponent(player)}&competition=world-cup&season=2026`;
+  const params = `query=${encodeURIComponent(player)}&season=2026`;
   for (const path of [`/sports/players/status?${params}`, `/players/status?${params}`]) {
     try {
       const response = await fetch(`${getApiBaseUrl()}${path}`);
@@ -1596,8 +1592,7 @@ function rankAssistantMatches(text: string, matches: MarketMatch[]) {
     const haystack = normalizeAssistantText(`${match.home} ${match.away} ${match.homeCode} ${match.awayCode} ${match.leagueName || ''} ${match.group} ${match.sport} ${match.options.map(option => option[0]).join(' ')}`);
     const teamHits = [match.home, match.away, match.homeCode, match.awayCode].filter(Boolean).reduce((score, value) => score + (request.includes(normalizeAssistantText(value)) ? 8 : 0), 0);
     const termHits = terms.reduce((score, term) => score + (haystack.includes(term) ? 1 : 0), 0);
-    const worldCupHit = request.includes('world cup') && match.group === 'world-cup' ? 5 : 0;
-    return { match, score: teamHits + termHits + worldCupHit };
+    return { match, score: teamHits + termHits };
   }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
 }
 
@@ -1678,7 +1673,7 @@ function Footer() {
             <BrandMark />
             <span><strong>Xsporty</strong><small>Prediction Market on Arc Testnet</small></span>
           </a>
-          <p>World Cup markets for match outcomes and player moments.</p>
+          <p>Top league markets for match outcomes.</p>
           <div className="footer-socials" aria-label="Social links">
             <a href="https://x.com/XsportyApp" target="_blank" rel="noreferrer" aria-label="Xsporty on X"><XSocialIcon /></a>
             <a href="https://t.me/XsportyBot" target="_blank" rel="noreferrer" aria-label="Telegram"><TelegramIcon /></a>
@@ -1785,7 +1780,7 @@ export function App() {
       const ok = Boolean(result?.ok);
       if (cancelled) return;
       const nextMatches = dedupeMatches([...(gameMarkets as MarketMatch[])]);
-      const nextPlayers = [...(playerPropMarkets as PlayerMarket[])];
+      const nextPlayers: PlayerMarket[] = [];
       if (ok && nextMatches.length) {
         setMatches(nextMatches);
         setMarketPage(result.pagination || { hasMore: false });
@@ -1914,8 +1909,7 @@ export function App() {
 
   const sportMatches = useMemo(() => matches.filter(match => match.sport === sport), [matches, sport]);
   const heroMatch = useMemo(() => {
-    const worldCup = matches.filter(match => match.sport === 'football' && match.group === 'world-cup');
-    return worldCup[0];
+    return matches.find(match => match.sport === 'football');
   }, [matches]);
 
   const pickMarket = useCallback((choice: Choice) => {
@@ -2150,9 +2144,9 @@ export function App() {
         type="button"
         ref={orbRef}
         onClick={animateOrb}
-        aria-label="FIFA World Cup 2026"
+        aria-label="Top league football"
       >
-        <img src="/wc2026.png" alt="FIFA World Cup 2026" className="wc26-logo" />
+        <img src="/wc2026.png" alt="Top league football" className="wc26-logo" />
       </button>
       <XsportyAssistant
         matches={matches}

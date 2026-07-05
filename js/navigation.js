@@ -45,7 +45,7 @@ export function wireTopSportNav() {
   document.querySelectorAll(".top-sport-nav button").forEach(button => {
     button.addEventListener("click", () => {
       state.sport = button.dataset.sport;
-      const defaultCategory = state.sport === "football" ? "world-cup" : "all";
+      const defaultCategory = "all";
       setActive(document.querySelectorAll(".top-sport-nav button"), button);
       setActive(document.querySelectorAll("#games-board .market-tabs button"), document.querySelector(`#games-board [data-category='${defaultCategory}']`));
       document.querySelector(".search-box input").value = "";

@@ -26,14 +26,12 @@ export async function hydrateFromBackend(options = {}) {
     const results = offset === 0
       ? await Promise.all([
         apiGet('/wallet/config'),
-        apiGet(marketCardsPath),
-        apiGet('/markets/cards?sport=football&competitionName=World%20Cup&status=open&tradingStatus=open&limit=100&sort=kickoff_time'),
-        apiGet('/markets/cards?category=player_future&status=open&tradingStatus=open&limit=100&sort=newest_activity')
+        apiGet(marketCardsPath)
       ])
-      : [state.walletConfig, await apiGet(marketCardsPath), { cards: [] }, { cards: [] }];
+      : [state.walletConfig, await apiGet(marketCardsPath)];
     if (results[0]) state.walletConfig = results[0];
     const marketPage = results[1] || {};
-    const backendCards = mergeBackendCards(marketPage.cards || [], results[2].cards || []);
+    const backendCards = mergeBackendCards(marketPage.cards || []);
     const backendMarkets = mapBackendCards(backendCards).filter(match => {
       if (isFinishedHomepageMatch(match)) return false;
       return true;
@@ -42,8 +40,7 @@ export async function hydrateFromBackend(options = {}) {
       const nextMarkets = append ? mergeMarketMatches(gameMarkets, backendMarkets) : backendMarkets;
       replaceGameMarkets(nextMarkets);
       replaceLiveFeaturedMarkets(nextMarkets.filter(match => match.isLive).slice(0, 8));
-      const backendPlayerFutures = mapBackendPlayerFutureCards(results[3].cards || []);
-      if (offset === 0) replacePlayerPropMarkets(backendPlayerFutures);
+      if (offset === 0) replacePlayerPropMarkets([]);
       state.apiOnline = true;
       state.apiError = "";
       if (!nextMarkets.some(match => match.sport === state.sport)) state.sport = nextMarkets[0].sport;
@@ -107,10 +104,10 @@ function mapBackendPlayerFutureCards(cards) {
     );
     return [{
       name: player.playerName,
-      country: player.teamName || future.competition?.name || 'World Cup',
+      country: player.teamName || future.competition?.name || 'Top Leagues',
       image: player.imageUrl || (player.playerId ? `https://media.api-sports.io/football/players/${player.playerId}.png` : ''),
       title: market.title,
-      label: `${future.competition?.name || 'World Cup'} ${future.competition?.season || '2026'}`,
+      label: `${future.competition?.name || 'Top Leagues'} ${future.competition?.season || '2026'}`,
       yes: yesCents,
       no: noCents,
       marketId: market.conditionId ? market.id : undefined,
@@ -232,8 +229,8 @@ function backendGroupForFixture(fixture, sport) {
   const kind = String(competition.kind || '').toLowerCase();
   const name = String(competition.name || '').toLowerCase();
   if (name === 'friendlies') return 'international-friendly';
-  if (kind === 'league' && !name.includes('world cup')) return 'leagues';
-  return 'world-cup';
+  if (kind === 'league') return 'leagues';
+  return 'all';
 }
 
 function leagueKeyForFixture(fixture) {
